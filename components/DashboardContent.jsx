@@ -49,8 +49,8 @@ const DashboardContent = () => {
     setChartData(response);
   };
   useEffect(() => {
-    fetchPresence();
-    fetchClass();
+    // fetchPresence();
+    // fetchClass();
   }, []);
   return (
     <div className="container-fluid dashboard" style={{ marginLeft: "10px" }}>
@@ -61,14 +61,14 @@ const DashboardContent = () => {
       </div>
       <div className="row d-flex justify-content-evenly p-2">
         <div className="col-xl-4 col-md-12 custom_boxshadow m-1 ">
-          {chartData.data ? (
+          {/* {chartData.data ? (
             <MainDonut
               present={chartData.sumPresentCount}
               absent={chartData.overall_total - chartData.sumPresentCount}
             />
           ) : (
             <ClassDetails_EmptyMainDonut />
-          )}
+          )} */}
         </div>
         <div
           className="col-xl-7 col-md-12 custom_boxshadow m-1"

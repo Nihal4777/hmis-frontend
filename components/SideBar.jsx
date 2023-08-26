@@ -72,34 +72,17 @@ const SideBar = ({ btn, modal, active, t}) => {
         onMouseLeave={hideSidebar}
         style={{ zIndex: "99999" }}
       >
-        {/* <div className="logo_items d-flex align-items-center"> */}
-        {/* <span className="nav_image">
-            <img src="images/logo.png" alt="logo_img" />
-          </span> */}
-        {/* <span className="logo_name">CodingNepal</span> */}
-        {/* <i
-            className={`bx ${sidebarToggleReplace}`}
-            id="lock-icon"
-            title="Unlock Sidebar"
-            onClick={toggleLock}
-          ></i>
-          <i className="bx bx-x" id="sidebar-close" onClick={toggleSidebar}></i>
-        </div> */}
+
         <div className="menu_container">
           <div className="menu_items">
             <ul className="menu_item">
-              {/* <div className="menu_title d-flex align-items-center">
-                <span className="title">Dashboard</span>
-                <span className="line"></span>
-              </div> */}
 
               <li className={active == 1 ? "list active" : "list"}>
                 <Link
                   to="/dashboard"
                   className="link d-flex align-items-center"
                   style={{ padding: "10px 0" }}
-                >
-                  {/* <i className="bi bi-grid"></i> */}
+                > 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="40"
@@ -406,7 +389,7 @@ const SideBar = ({ btn, modal, active, t}) => {
           ""
         )}
       </nav>
-      <ClaenderModal t={t}/>
+      {/* <ClaenderModal t={t}/> */}
     </>
   );
 };
