@@ -89,7 +89,6 @@ const PatientRegistration = () => {
     <div>
       <div
         className="d-flex justify-content-center align-items-center flex-column"
-        style={{ overflow: "hidden", height: "100vh" }}
       >
         <div className="login_image_right">
           <svg
@@ -98,6 +97,8 @@ const PatientRegistration = () => {
             height="1117"
             viewBox="0 0 353 1117"
             fill="none"
+            style={{position:'fixed',top:'0',
+            right:'0'}}
           >
             <path
               fill-rule="evenodd"
@@ -114,6 +115,8 @@ const PatientRegistration = () => {
             viewBox="0 0 435 297"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            style={{position:'fixed',
+            bottom:'0'}}
           >
             <mask
               id="mask0_216_2125"
@@ -151,18 +154,6 @@ const PatientRegistration = () => {
               </g>
             </g>
           </svg>
-        </div>
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{
-            zIndex: 2,
-            width: '75%'
-          }}
-        >
-          <div className="login_page_logo">
-            <img src={logo} alt="Logo" />
-          </div>
-          <div className="login_main_heading_text">Smart HMIS.</div>
         </div>
         <form
           method="POST"
@@ -228,10 +219,8 @@ const PatientRegistration = () => {
           <div class="row g-3">
             <div class="col">
             <label for="inputAddress" class="form-label">Address:</label>
-              <input type="textarea" class="form-control" placeholder="Address" aria-label="Email" name='address'/>
-            </div>
-            <div class="col">
-            
+              {/* <input type="textarea" class="form-control" placeholder="Address" aria-label="Email" name='address'/> */}
+              <textarea className="form-control" name="text-area" id="text-area" rows="5" style={{width:"100%"}}></textarea>
             </div>
           </div>
           
