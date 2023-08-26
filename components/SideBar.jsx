@@ -44,25 +44,10 @@ const SideBar = ({ btn, modal, active, t}) => {
       }
     };
   }, [window.innerWidth]);
-  const logoutAPI = async () => {
-    const event = await fetch(
-      `${import.meta.env.VITE_API}api/logout`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      }
-    );
-    const response = await event.json();
-    if (response.status == "success") {
-      Cookies.remove("token");
-      Cookies.remove("userName");
-      navigate("/");
-      toast.success("Logged out successfully");
-    }
+  const logoutAPI = () => {
+    Cookies.set("token", '', { expires: -1 });
+    toast.success("Logout successfull");
+    navigate("/");
   };
   return (
     <>

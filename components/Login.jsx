@@ -4,10 +4,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../images/logo.png";
-
+import { useJwt } from "react-jwt";
+import { isExpired, decodeToken } from "react-jwt";
 const Login = () => {
   const [loader, setLoader] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  
   const icon = visibility ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -90,6 +92,7 @@ const Login = () => {
   const inputType = visibility ? "text" : "password";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
 
   const headers = {
@@ -97,23 +100,34 @@ const Login = () => {
     "Content-Type": "application/json",
   };
   const fetchAPI = async () => {
-    const login = await fetch(`${import.meta.env.VITE_API}api/spa/auth`, {
+    var form=document.getElementById('loginForm');
+    if(!form.checkValidity())
+      return ;
+      setLoader(true);
+      setDisabled(true);
+    const login = await fetch(`${import.meta.env.VITE_API}api/token/`, {
       method: "post",
       headers,
       body: JSON.stringify({
-        email,
+        username:email,
         password,
       }),
     });
     const data = await login.json();
-    if (data.status == "success") {
-      toast.success("Successfully Logged in");
-      Cookies.set("token", data.token, { expires: 1 });
-      Cookies.set("userName", data.user.name, { expires: 1 });
+    if (data.detail) {
+      toast.error(data.detail);
       setLoader(false)
-      navigate("/dashboard");
-    } else {
-      toast.error(data.message);
+      setDisabled(false);
+     
+    } else if(data.access!=undefined) {
+      if(!isExpired(data.access))
+        toast.success("Login successfull");
+        Cookies.set("token", data.access, { expires: 1 });
+        // Cookies.set("userName", data.user.name, { expires: 1 });
+        navigate("/dashboard");
+        setLoader(false)
+        setDisabled(false);
+        console.log(decodeToken(data.access));
     }
   };
 
@@ -194,14 +208,15 @@ const Login = () => {
       </div>
       <form
         method="POST"
+        id="loginForm"
         className="login_form container d-flex flex-column justify-content-center align-items-center"
         onSubmit={(e) => e.preventDefault()}
       >
         <div className="login_heading text-center">Sign in to Smart HMIS</div>
         <div className="login_input_box">
           <input
-            type="email"
-            placeholder="Enter your mail"
+            type="text"
+            placeholder="Enter your username"
             className="login-form-input"
             required={true}
             onChange={(e) => setEmail(e.target.value)}
@@ -256,14 +271,15 @@ const Login = () => {
           <button
             type="submit"
             onClick={(e) => {
-              if (email && password) fetchAPI(); setLoader(true);
+              if (email && password) fetchAPI(); 
             }}
             className="login_form_button"
           >
             Sign In
           </button>
         ) : (
-          <button className="login_form_button" >
+          <button className="login_form_button" 
+          disabled={disabled}>
             <span
               className="spinner-border spinner-border-sm me-2"
               aria-hidden="true"
