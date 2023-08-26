@@ -169,22 +169,24 @@ const PatientRegistration = () => {
           className="reg_form row g-3 container d-flex flex-column justify-content-center align-items-center"
           onSubmit={(e) => e.preventDefault()}
         >
-          <div className="login_heading text-center">Sign in to Smart HMIS</div>
+          <div className="login_heading text-center">Patient Registration</div>
           <div class="row g-3">
             <div class="col">
-              <input type="text" class="form-control" placeholder="First name" aria-label="First name"/>
+            <label for="inputAddress" class="form-label">First Name</label>
+              <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="frist_name"/>
             </div>
             <div class="col">
-              <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"/>
+            <label for="inputAddress" class="form-label">Last Name</label>
+              <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name='last_name'/>
             </div>
           </div>
           <div class="row g-3">
             <div class="col">
             <label for="inputAddress" class="form-label">Date of birth</label>
-              <input type="date" class="form-control"/>
+              <input type="date" class="form-control" name='dob'/>
             </div>
             <div class="col">
-            <label for="inputAddress" class="form-label">Gender</label>
+            <label for="Gender" class="form-label">Gender</label>
            <select name="gender"  className='form-select'>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -194,13 +196,45 @@ const PatientRegistration = () => {
           </div>
           <div class="row g-3">
             <div class="col">
-              <input type="email" class="form-control" placeholder="Email name" aria-label="Email"/>
+            <label for="inputAddress" class="form-label">Email</label>
+              <input type="email" class="form-control" placeholder="Email name" aria-label="Email" name='email'/>
             </div>
             <div class="col">
-              <input type="tel" class="form-control" placeholder="Mobile Number" aria-label="Mobile name"/>
+            <label for="inputAddress" class="form-label">Mobile No</label>
+              <input type="tel" class="form-control" placeholder="Mobile Number" aria-label="Mobile name" name='mobile'/>
             </div>
           </div>
 
+          <div class="row g-3">
+            <div class="col">
+            <label for="Blood_group" class="form-label">Blood Group</label>
+            <select name="Blood_group"  className='form-select'>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            </select>     
+            </div>
+            <div class="col">
+            <label for="inputAddress" class="form-label">Abhar No</label>
+              <input type="tel" class="form-control" placeholder="Abhar No" aria-label="Mobile name" name='abhar'/>
+            </div>
+          </div>
+          
+          <div class="row g-3">
+            <div class="col">
+            <label for="inputAddress" class="form-label">Address:</label>
+              <input type="textarea" class="form-control" placeholder="Address" aria-label="Email" name='address'/>
+            </div>
+            <div class="col">
+            
+            </div>
+          </div>
+          
           {loader === false ? (
             <button
               type="submit"
@@ -208,6 +242,7 @@ const PatientRegistration = () => {
                 if (email && password) fetchAPI(); setLoader(true);
               }}
               className="login_form_button"
+              style={{'margin-bottom':'61px'}}
             >
               Sign In
             </button>
@@ -220,6 +255,8 @@ const PatientRegistration = () => {
               <span role="status">Loading...</span>
             </button>
           )}
+          
+       
         </form>
       </div>
     </div>
