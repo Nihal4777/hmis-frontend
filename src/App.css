@@ -4,7 +4,7 @@
 :root {
   --primary-color: #9575de;
   --light-grey: rgba(238, 238, 238, 0.7);
-  --sidebar-bg: #7091F5
+  --sidebar-bg: #7091F5;
   --white-color: #fff;
   --black-color: #000;
 }
@@ -69,6 +69,18 @@ th {
   letter-spacing: -0.377px;
 }
 .login_heading {
+
+  color: #050038;
+  font-family: DM Sans;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 125% */
+  margin-bottom: 40px;
+}
+
+.reg_heading {
+
   color: #050038;
   font-family: DM Sans;
   font-size: 32px;
@@ -90,7 +102,7 @@ th {
 }
 .reg_form {
   width: 720px;
-  height: 470px;
+  /* height: 790px; */
   border-radius: 12px;
   border: 1px solid #e4e4e4;
   background: #fff;
@@ -597,13 +609,13 @@ th {
     display: flex;
   }
 }
-/****  DRAG AND DROP FILES ****/
+/**  DRAG AND DROP FILES **/
 .drag_and_drop_area {
   border: 1px solid rgba(168, 38, 130, 1);
   text-align: center;
   border-radius: 10px;
 }
-/****  INPUT FIELDS  ****/
+/**  INPUT FIELDS  **/
 .input_heading {
   font-weight: 600;
   padding-bottom: 5px;
@@ -624,7 +636,7 @@ th {
     width: 300px;
   }
 }
-/****  HOLDIAY MODAL  ****/
+/**  HOLDIAY MODAL  **/
 .btn.btn-select,
 .btn.btn-select {
   color: white;
@@ -635,7 +647,7 @@ th {
   position: absolute;
 }
 
-/***********CLAENDER***********/
+/****CLAENDER****/
 
 .class_select_checkbox:checked
   ~ .class_select_checkbox_button.class_select
@@ -661,13 +673,13 @@ th {
 .rdrDateDisplayItemActive {
   border-color: #a82682 !important;
 }
-/* ****************** */
+/* ****** */
 .dropdown {
   width: 200px;
   padding: 10px;
   border-radius: 10px;
 }
-/************************************/
+/************/
 .modal_main_heading {
   font-weight: 600;
   margin: 10px 0;
