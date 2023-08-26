@@ -190,14 +190,14 @@ const Login = () => {
         <div className="login_page_logo">
           <img src={logo} alt="Logo" />
         </div>
-        <div className="login_main_heading_text">SNK.</div>
+        <div className="login_main_heading_text">Smart HMIS.</div>
       </div>
       <form
         method="POST"
         className="login_form container d-flex flex-column justify-content-center align-items-center"
         onSubmit={(e) => e.preventDefault()}
       >
-        <div className="login_heading text-center">Sign in to SNK</div>
+        <div className="login_heading text-center">Sign in to Smart HMIS</div>
         <div className="login_input_box">
           <input
             type="email"
