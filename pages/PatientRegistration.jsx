@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import logo from "../images/logo.png";
 import { useState } from 'react';
-
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 const PatientRegistration = () => {
 
   const [loader, setLoader] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  const navigate = useNavigate();
+  const [info, setInfo] = useState({
+    "fname": "",
+    "lname": "",
+    "email": "",
+    "dob": "",
+    "gender": "",
+    "blood_group": "",
+    "address": "",
+    "aadhar": "",
+    "aabhar": "",
+    "mobile_no": "",
+  });
+  useEffect(() => {
+    if(!Cookies.get('token'))
+    {
+      toast.error('Session expired');
+      navigate('/');
+    }
+  }, []);
   const icon = visibility ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +120,10 @@ const PatientRegistration = () => {
             height="1117"
             viewBox="0 0 353 1117"
             fill="none"
-            style={{position:'fixed',top:'0',
-            right:'0'}}
+            style={{
+              position: 'fixed', top: '0',
+              right: '0'
+            }}
           >
             <path
               fill-rule="evenodd"
@@ -115,8 +140,10 @@ const PatientRegistration = () => {
             viewBox="0 0 435 297"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{position:'fixed',
-            bottom:'0'}}
+            style={{
+              position: 'fixed',
+              bottom: '0'
+            }}
           >
             <mask
               id="mask0_216_2125"
@@ -157,81 +184,128 @@ const PatientRegistration = () => {
         </div>
         <form
           method="POST"
+          id="regForm"
           className="reg_form row g-3 container d-flex flex-column justify-content-center align-items-center"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={
+            async(e) => {
+              e.preventDefault();
+              const headers = {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${Cookies.get('token')}`
+              }
+  
+                var form = document.getElementById('loginForm');
+                setLoader(true);
+                setDisabled(true);
+                const login = await fetch(`${import.meta.env.VITE_API}api/case/patient_registration/`, {
+                  method: "post",
+                  headers,
+                  body: JSON.stringify({
+                    ...info,
+                    name: info.fname + info.lname
+                  }),
+                });
+                const data = await login.json();
+                if (data.detail) {
+                  toast.error(data.detail);
+                  setLoader(false)
+                  setDisabled(false);
+                } else if (data.access != undefined) {
+                  if (!isExpired(data.access))
+                    toast.success("Login successfull");
+                  Cookies.set("token", data.access, { expires: 1 });
+                  // Cookies.set("userName", data.user.name, { expires: 1 });
+                  navigate("/dashboard");
+                  setLoader(false)
+                  setDisabled(false);
+                  console.log(decodeToken(data.access));
+                }
+              }
+            }
         >
           <div className="login_heading text-center">Patient Registration</div>
           <div class="row g-3">
             <div class="col">
-            <label for="inputAddress" class="form-label">First Name</label>
-              <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="frist_name"/>
+              <label for="inputAddress" class="form-label">First Name</label>
+              <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="frist_name"
+                required
+                onChange={e => setInfo({ ...info, fname: e.target.value })} />
             </div>
             <div class="col">
-            <label for="inputAddress" class="form-label">Last Name</label>
-              <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name='last_name'/>
-            </div>
-          </div>
-          <div class="row g-3">
-            <div class="col">
-            <label for="inputAddress" class="form-label">Date of birth</label>
-              <input type="date" class="form-control" name='dob'/>
-            </div>
-            <div class="col">
-            <label for="Gender" class="form-label">Gender</label>
-           <select name="gender"  className='form-select'>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Prefer Not to say">Prefer Not to say</option>
-           </select>
+              <label for="inputAddress" class="form-label">Last Name</label>
+              <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name='last_name'
+                required
+                onChange={e => setInfo({ ...info, lname: e.target.value })} />
             </div>
           </div>
           <div class="row g-3">
             <div class="col">
-            <label for="inputAddress" class="form-label">Email</label>
-              <input type="email" class="form-control" placeholder="Email name" aria-label="Email" name='email'/>
+              <label for="inputAddress" class="form-label">Date of birth</label>
+              <input type="date" class="form-control" name='dob' required
+                onChange={e => setInfo({ ...info, dob: e.target.value })} />
             </div>
             <div class="col">
-            <label for="inputAddress" class="form-label">Mobile No</label>
-              <input type="tel" class="form-control" placeholder="Mobile Number" aria-label="Mobile name" name='mobile'/>
+              <label for="Gender" class="form-label">Gender</label>
+              <select name="gender" className='form-select' required
+                onChange={e => setInfo({ ...info, lname: e.target.value })}>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Prefer Not to say">Prefer Not to say</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col">
+              <label for="inputAddress" class="form-label">Email</label>
+              <input type="email" class="form-control" placeholder="Email name" aria-label="Email" name='email'
+                required
+                onChange={e => setInfo({ ...info, email: e.target.value })} />
+            </div>
+            <div class="col">
+              <label for="inputAddress" class="form-label">Mobile No</label>
+              <input type="tel" class="form-control" placeholder="Mobile Number" aria-label="Mobile name" name='mobile'
+                required
+                onChange={e => setInfo({ ...info, mobile_no: e.target.value })} />
             </div>
           </div>
 
           <div class="row g-3">
             <div class="col">
-            <label for="Blood_group" class="form-label">Blood Group</label>
-            <select name="Blood_group"  className='form-select'>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
-            </select>     
+              <label for="Blood_group" class="form-label">Blood Group</label>
+              <select name="Blood_group" className='form-select'
+                onChange={e => setInfo({ ...info, blood_group: e.target.value })}>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
             </div>
             <div class="col">
-            <label for="inputAddress" class="form-label">Abhar No</label>
-              <input type="tel" class="form-control" placeholder="Abhar No" aria-label="Mobile name" name='abhar'/>
+              <label for="inputAddress" class="form-label">Abhar No</label>
+              <input type="tel" class="form-control" placeholder="Abhar No" aria-label="Mobile name" name='abhar'
+                onChange={e => setInfo({ ...info, mobile_no: e.target.value })} />
             </div>
           </div>
-          
+
           <div class="row g-3">
             <div class="col">
-            <label for="inputAddress" class="form-label">Address:</label>
+              <label for="inputAddress" class="form-label">Address:</label>
               {/* <input type="textarea" class="form-control" placeholder="Address" aria-label="Email" name='address'/> */}
-              <textarea className="form-control" name="text-area" id="text-area" rows="5" style={{width:"100%"}}></textarea>
+              <textarea className="form-control" name="text-area" id="text-area" rows="5" style={{ width: "100%" }}
+                onChange={e => setInfo({ ...info, address: e.target.value })}></textarea>
             </div>
           </div>
-          
+
           {loader === false ? (
             <button
               type="submit"
-              onClick={(e) => {
-                if (email && password) fetchAPI(); setLoader(true);
-              }}
               className="login_form_button"
-              style={{'margin-bottom':'61px'}}
+              style={{ 'margin-bottom': '61px' }}
             >
               Sign In
             </button>
@@ -244,8 +318,8 @@ const PatientRegistration = () => {
               <span role="status">Loading...</span>
             </button>
           )}
-          
-       
+
+
         </form>
       </div>
     </div>

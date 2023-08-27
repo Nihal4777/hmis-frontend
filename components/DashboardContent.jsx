@@ -5,9 +5,11 @@ import LeftHeading from "./dashboard/LeftHeading";
 // import EmptySubDonut from "./dashboard/EmptySubDonut";
 import ClassButtons from "./dashboard/ClassButtons";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router";
 const DashboardContent = () => {
   const [classData, setCLassData] = useState([]);
   const [chartData, setChartData] = useState([]);
+
   if (!Cookies.get("token")) return <div>Not Valid</div>;
   const fetchClass = async () => {
     const headers = {

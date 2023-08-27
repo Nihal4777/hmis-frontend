@@ -7,6 +7,7 @@ import DashboardPage from "../pages/DashboardPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PatientRegistration from "../pages/PatientRegistration";
+import NurseDetailsTable from "../components/nurse/NurseDetailsTable";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" name="loginPage" element={<LoginPage />}/>
         <Route path="/patientRegistration" name="patientRegistration" element={<PatientRegistration />}/>
         <Route path="/dashboard" name="dashboardPage" element={<DashboardPage title="Smart HMIS"/>}/>
+        <Route path="/NurseDetailsTable" name="NurseDetailsTable" element={<NurseDetailsTable></NurseDetailsTable>}></Route>
       </Routes>
       <ToastContainer
         position="bottom-right"
